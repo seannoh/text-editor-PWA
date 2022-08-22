@@ -22,12 +22,9 @@ module.exports = () => {
       new HtmlWebpackPlugin({
         template: "./index.html",
         title: "Just Another Text Editor",
+        favicon: "./favicon.ico"
       }),
       new MiniCssExtractPlugin(),
-      new InjectManifest({
-        swSrc: "./src-sw.js",
-        swDest: "src-sw.js",
-      }),
       new WebpackPwaManifest({
         name: "Just Another Text Editor",
         short_name: "JATE",
@@ -44,7 +41,11 @@ module.exports = () => {
         fingerprints: false,
         inject: true,
       }),
-      
+      new InjectManifest({
+        swSrc: "./src-sw.js",
+        swDest: "src-sw.js",
+        exclude: [],
+      }),
     ],
 
     module: {
@@ -52,6 +53,10 @@ module.exports = () => {
         {
           test: /\.css$/i,
           use: [MiniCssExtractPlugin.loader, "css-loader"]
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
         },
         {
           test: /\.m?js$/,
